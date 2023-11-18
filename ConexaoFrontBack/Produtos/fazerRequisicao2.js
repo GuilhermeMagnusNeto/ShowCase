@@ -15,7 +15,6 @@ document.addEventListener("DOMContentLoaded", function () {
                             const storeName = response.data.data[0].name;
                             const storeImageURL = response.data.data[0].urlStoreLogo;
                             const lojaTronicElements = document.querySelector('.col-md-4.d-flex.flex-column.justify-content-center');
-                            console.log(lojaTronicElements);
 
                             const imagemElement = document.createElement("img");
                             imagemElement.src = storeImageURL; // Defina o link da imagem
@@ -247,27 +246,58 @@ document.addEventListener("DOMContentLoaded", function () {
                         arrayIds.push(produtoId);
                     }
                     var arrayProdutos = [];
-                    for (const id of arrayIds) {
-                        const apiUrl2 = `https://showcase-api.azurewebsites.net/api/v1/StoreProduct/GetProductById/${id}`;
-                        try {
-                            const response = await axios.request(apiUrl2);
-                            const product = response.data.data;
 
-                            // Crie uma cópia do elemento do produto
-                            const productCard = createProductCard(product);
+                    const showcaseId = localStorage.getItem("showcaseId");
 
-                            // Encontre a div "m-2" na página CriacaoDaVitrine.html
-                            const Div = document.querySelector('.row.mx-auto');
-
-                            // Insira o produto na div "m-2"
-                            Div.appendChild(productCard);
-
-                            // Guarde os produtos na ordem em que são processados
-                            arrayProdutos.push(product);
-                        } catch (error) {
-                            console.log(error);
-                        }
-                    }
+                    const searchUrl = `https://showcase-api.azurewebsites.net/api/v1/ShowcaseStyle/GetStyleByShowcaseId/${showcaseId}`;
+                    let showProductValue, showStoreLogo, backgroundColor, redirectLink;
+                    axios.get(searchUrl)
+                        .then(async function (response) {
+                            if (response.status === 200 && response.data.statusCode === 200) {
+                                if (response.data.data.showProductValue == true) {
+                                    showProductValue = true;
+                                }
+                                else {
+                                    showProductValue = false;
+                                }
+                                if (response.data.data.showStoreLogo === true) {
+                                    showStoreLogo = true;
+                                }
+                                else {
+                                    showStoreLogo = true;
+                                }
+                                backgroundColor = response.data.data.backgroundColorCode;
+                                if (backgroundColor === null) {
+                                    backgroundColor = "#F0A732";
+                                }
+                            }
+                            else {
+                                console.log("Erro: ", response.data);
+                            }
+                            redirectLink = response.data.data.redirectLink;
+    
+                            for (const id of arrayIds) {
+                                const apiUrl2 = `https://showcase-api.azurewebsites.net/api/v1/StoreProduct/GetProductById/${id}`;
+                                try {
+                                    const response = await axios.request(apiUrl2);
+                                    const product = response.data.data;
+        
+                                    // Crie uma cópia do elemento do produto
+                                    const productCard = createProductCard(product, backgroundColor, showProductValue, showStoreLogo, redirectLink);
+        
+                                    // Encontre a div "m-2" na página CriacaoDaVitrine.html
+                                    const Div = document.querySelector('.row.mx-auto');
+        
+                                    // Insira o produto na div "m-2"
+                                    Div.appendChild(productCard);
+        
+                                    // Guarde os produtos na ordem em que são processados
+                                    arrayProdutos.push(product);
+                                } catch (error) {
+                                    console.log(error);
+                                }
+                            }                            
+                        });
                 } else {
                     console.log(response.data);
                 }
@@ -351,52 +381,12 @@ function vincularProduto(produto) {
 }
 
 // Função para criar um elemento de produto
-function createProductCard(produto) {
-    const showcaseId = localStorage.getItem("showcaseId");
-
-    const searchUrl = `https://showcase-api.azurewebsites.net/api/v1/ShowcaseStyle/GetStyleByShowcaseId/${showcaseId}`;
-    axios.get(searchUrl)
-    .then(function (response) {
-        if (response.status === 200 && response.data.statusCode === 200) {
-            if(response.data.data.showProductValue == true){
-                localStorage.setItem("showProductValue", true);
-            }
-            else{
-                localStorage.setItem("showProductValue", false);
-            }
-            if(response.data.data.showStoreLogo === true){
-                localStorage.setItem("showStoreLogo", true);
-            }
-            else{
-                localStorage.setItem("showStoreLogo", false);
-            }
-            const backgroundColor = response.data.data.backgroundColorCode;
-            if(backgroundColor === null){
-                const backgroundColor = "#1af5b6";
-                localStorage.setItem("backgroundColor", backgroundColor);
-            }
-            else{
-                localStorage.setItem("backgroundColor", backgroundColor);
-            }
-        }
-        else{
-            const backgroundColor = "#1af5b6";
-            localStorage.setItem("backgroundColor", backgroundColor);
-        }
-        const redirectLink = response.data.data.redirectLink;
-        localStorage.setItem("redirectLink", redirectLink);
-    });
+function createProductCard(produto, backgroundColor, showProductValue, showStoreLogo, redirectLink) {
     const customProductCard = document.createElement("div");
     customProductCard.className = "col-md-4 mb-2";
     customProductCard.id=produto.id;
 
-    //MUDAR A COR AQUI
-    const backgroundColor = localStorage.getItem("backgroundColor");
-    const showProductValue = localStorage.getItem("showProductValue");
-    const showStoreLogo = localStorage.getItem("showStoreLogo");
-    const redirectLink = localStorage.getItem("redirectLink");
-
-    if(showProductValue === "true" && showStoreLogo === "true"){
+    if(showProductValue === true && showStoreLogo === true){
         // Defina o conteúdo do cartão do produto com base nos dados do produto
         customProductCard.innerHTML = `
             <div class="text-decoration-none border mx-1 w-100 p-3" style="color: white; background: url('../Imagens/backgroundTexture.png') repeat, linear-gradient(to top, ${backgroundColor}, black);background-blend-mode: overlay; border-radius: 40px;">
@@ -417,7 +407,7 @@ function createProductCard(produto) {
 
         return customProductCard;
     }
-    else if(showProductValue === "false" && showStoreLogo === "true"){
+    else if(showProductValue === false && showStoreLogo === true){
         customProductCard.innerHTML = `
             <div class="text-decoration-none border mx-1 w-100 p-3" style="color: white; background: url('../Imagens/backgroundTexture.png') repeat, linear-gradient(to top, ${backgroundColor}, black);background-blend-mode: overlay; border-radius: 40px;">
                 <div class="d-flex justify-content-center">
@@ -436,7 +426,7 @@ function createProductCard(produto) {
 
         return customProductCard;
     }
-    else if(showProductValue === "true" && showStoreLogo === "false"){
+    else if(showProductValue === true && showStoreLogo === false){
         customProductCard.innerHTML = `
             <div class="text-decoration-none border mx-1 w-100 p-3" style="color: white; background: url('../Imagens/backgroundTexture.png') repeat, linear-gradient(to top, ${backgroundColor}, black);background-blend-mode: overlay; border-radius: 40px;">
                 <div class="d-flex flex-column">
@@ -453,7 +443,7 @@ function createProductCard(produto) {
 
         return customProductCard;
     }
-    else if(showProductValue === "false" && showStoreLogo === "false"){
+    else if(showProductValue === false && showStoreLogo === false){
         customProductCard.innerHTML = `
             <div class="text-decoration-none border mx-1 w-100 p-3" style="color: white; background: url('../Imagens/backgroundTexture.png') repeat, linear-gradient(to top, ${backgroundColor}, black);background-blend-mode: overlay; border-radius: 40px;">
                 <div class="d-flex flex-column">
