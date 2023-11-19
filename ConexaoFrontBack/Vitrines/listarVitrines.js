@@ -45,7 +45,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
                                 const editarIcon = document.createElement("i");
                                 editarIcon.className = "bi bi-pencil-square bi-2x";
-                                editarIcon.style.fontSize = "x-large"; // Corrigir a propriedade "fontSizex" para "fontSize"
+                                editarIcon.style.fontSize = "x-large";
 
                                 const excluirIcon = document.createElement("i");
                                 excluirIcon.className = "bi bi-trash3 bi-2x";
@@ -53,7 +53,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
                                 excluirIcon.addEventListener("click", function () {
                                     // Ao clicar no ícone da lixeira, chame a função para excluir a vitrine
-                                    excluirVitrine(vitrine.id); // Passe o ID da vitrine a ser excluída
+                                    excluirVitrine(vitrine.id);
                                 });
 
                                 // Adicione o evento de clique ao ícone de edição
@@ -67,14 +67,13 @@ document.addEventListener("DOMContentLoaded", function () {
                                             const templateIdVitrine = `https://showcase-api.azurewebsites.net/api/v1/ShowcaseStyle/GetStyleByShowcaseId/${vitrine.id}`;
                                             axios.get(templateIdVitrine)
                                             .then(function (response){
-
-                                                const idTemplateVitrine = response.data.data.templateId;
-                                                if(idTemplateVitrine === template.id){
+                                                const templateName = response.data.data.templateName;
+                                                if(templateName === "Listagem na Vertical"){
                                                     localStorage.setItem("showcaseId", vitrine.id);
                                                     const nextPage = `../../Paginas/CriacaoDaVitrine.html`;
                                                     window.location.href = nextPage;
                                                 }
-                                                else if(idTemplateVitrine === template.id){
+                                                else if(templateName === "Listagem na Horizontal"){
                                                     localStorage.setItem("showcaseId", vitrine.id);
                                                     const nextPage = `../../Paginas/CriacaoDaVitrine2.html`;
                                                     window.location.href = nextPage;

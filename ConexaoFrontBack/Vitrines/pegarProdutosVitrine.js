@@ -17,7 +17,6 @@ document.addEventListener("DOMContentLoaded", function () {
                                 const storeName = response.data.data.name;
                                 const storeImageURL = response.data.data.urlStoreLogo;
                                 const lojaTronicElements = document.querySelector('.col-md-4.d-flex.flex-column.justify-content-center');
-                                console.log("TESTE");
                                 const imagemElement = document.createElement("img");
                                 imagemElement.src = storeImageURL; // Defina o link da imagem
                                 imagemElement.className = "img-fluid";
@@ -190,7 +189,7 @@ function createProductCard(produto) {
                 <div class="col-md-8 pt-0 ps-3 mt-3">
                     <div class="card-body py-0">
                         <h2 class="card-title" style="color: white;">${produto.name}</h2>
-                        <h5 class="card-text mb-3" style="color: ${backgroundColor};">Valor: R$:${produto.value} av<br>ou R$:${produto.value} em até 12x</h5>
+                        <h5 class="card-text mb-3" style="color: ${backgroundColor};">Valor: R$${produto.value} av<br>ou R$${produto.value} em até 12x</h5>
                         <h5 class="card-text" style="color: white;">Descrição: ${produto.sku}</h5>
                     </div>
                     <div class="card-footer d-flex mt-3 justify-content-start" style="color: white; border: none; background: none;">
@@ -227,7 +226,7 @@ function createProductCard(produto) {
                 <div class="col-md-8 pt-0 ps-3 mt-3">
                     <div class="card-body py-0">
                         <h2 class="card-title" style="color: white;">${produto.name}</h2>
-                        <h5 class="card-text mb-3" style="color: ${backgroundColor};">Valor: R$:${produto.value} av<br>ou R$:${produto.value} em até 12x</h5>
+                        <h5 class="card-text mb-3" style="color: ${backgroundColor};">Valor: R$${produto.value} av<br>ou R$${produto.value} em até 12x</h5>
                         <h5 class="card-text" style="color: white;">Descrição: ${produto.sku}</h5>
                     </div>
                     <div class="card-footer d-flex mt-3 justify-content-start" style="color: white; border: none; background: none;">
@@ -280,7 +279,7 @@ function createProductCard2(produto) {
                 </div>
                 <div class="d-flex flex-column">
                     <h1>${produto.name}</h1>
-                    <h5>Valor: ${produto.value} av<br>ou ${produto.value} em até 12x</h5>
+                    <h5>Valor: R$${produto.value} av<br>ou R$${produto.value} em até 12x</h5>
                     <h6>Descrição: ${produto.sku}</h6>
                 </div>
                 <div class="mt-3 d-flex justify-content-center" style="color: white; border: none; background: none;">
@@ -314,7 +313,7 @@ function createProductCard2(produto) {
             <div class="text-decoration-none border mx-1 w-100 p-3" style="color: white; background: url('../Imagens/backgroundTexture.png') repeat, linear-gradient(to top, ${backgroundColor}, black);background-blend-mode: overlay; border-radius: 40px;">
                 <div class="d-flex flex-column">
                     <h1>${produto.name}</h1>
-                    <h5>Valor: ${produto.value} av<br>ou ${produto.value} em até 12x</h5>
+                    <h5>Valor: R$${produto.value} av<br>ou R$${produto.value} em até 12x</h5>
                     <h6>Descrição: ${produto.sku}</h6>
                 </div>
                 <div class="mt-3 d-flex justify-content-center" style="color: white; border: none; background: none;">

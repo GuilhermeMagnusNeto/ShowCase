@@ -225,7 +225,139 @@ document.addEventListener("DOMContentLoaded", function () {
                 else {
                     console.log("Erro para pegar storeId:", response.data);
                 }
+            })
+            .catch(function (error) {
+                console.log(error);
             });
+        
+        const showcaseId = localStorage.getItem("showcaseId");
+        const apiUrl = `https://showcase-api.azurewebsites.net/api/v1/ShowcaseStyle/GetStyleByShowcaseId/${showcaseId}`;
+
+        axios.get(apiUrl)
+            .then((response) => {
+                if (response.status === 200 && response.data.statusCode === 200) {
+                    const backgroundColor = response.data.data.backgroundColorCode;
+
+                    //ADICIONAR COR
+                    var botaoCor = document.querySelector('#colorPicker');
+                    botaoCor.value = backgroundColor;
+
+                    //Adiciona botões de valor, imagem e alterar estilo
+                    const showStoreLogo = response.data.data.showStoreLogo;
+                    const showProductValue = response.data.data.showProductValue;
+
+                    const modeloBotoes = document.getElementById("modeloBotoes");
+
+                    console.log(modeloBotoes);
+                    if(showProductValue === true){
+                        const link = document.createElement("div");
+                        link.className = "form-check form-switch me-4";
+                        link.innerHTML = `<input class="form-check-input" type="checkbox" id="checkbox1" checked>
+                        <label class="form-check-label" for="checkbox1" style="color: #F0A732;">Valor</label>`;
+                        modeloBotoes.appendChild(link);
+                    }
+                    else{
+                        const link = document.createElement("div");
+                        link.className = "form-check form-switch me-4";
+                        link.innerHTML = `<input class="form-check-input" type="checkbox" id="checkbox1">
+                        <label class="form-check-label" for="checkbox1" style="color: #F0A732;">Valor</label>`;
+                        modeloBotoes.appendChild(link);
+                    }
+                    if(showStoreLogo === true){
+                        const link = document.createElement("div");
+                        link.className = "form-check form-switch me-4";
+                        link.innerHTML = `<input class="form-check-input" type="checkbox" id="checkbox2" checked>
+                        <label class="form-check-label" for="checkbox2" style="color: #F0A732;">Imagem</label>`;
+                        modeloBotoes.appendChild(link);
+                    }
+                    else{
+                        const link = document.createElement("div");
+                        link.className = "form-check form-switch me-4";
+                        link.innerHTML = `<input class="form-check-input" type="checkbox" id="checkbox2">
+                        <label class="form-check-label" for="checkbox2" style="color: #F0A732;">Imagem</label>`;
+                        modeloBotoes.appendChild(link);
+                    }
+
+                    const link = document.createElement("button");
+                    link.id = "alterarEstilo";
+                    link.className = "btn btn-warning send-styles";
+                    link.innerHTML = `Alterar estilo`;
+                    modeloBotoes.appendChild(link);
+
+                    link.addEventListener("click", function (event) {
+                        console.log("teste");
+
+                        const showcaseId = localStorage.getItem("showcaseId");
+                        const apiUrl = `https://showcase-api.azurewebsites.net/api/v1/ShowcaseStyle/GetStyleByShowcaseId/${showcaseId}`;
+                            axios.request(apiUrl)
+                                .then(async (response) => {
+                                    const id = response.data.data.id;
+                                    const templateId = response.data.data.templateId;
+                                    const checkbox1 = document.getElementById("checkbox1");
+                                    const checkbox2 = document.getElementById("checkbox2");
+                                    const backgroundColorCode = colorPicker.value;
+                                    const showProductValue = checkbox1.checked;
+                                    const showStoreLogo = checkbox2.checked;
+                                    let redirectLink = response.data.data.redirectLink;
+
+                                    if(response.data.data.redirectLink === null){
+                                        redirectLink = "";
+                                    }
+
+                                    const postData = {
+                                        showcaseStyleId: id,
+                                        templateId: templateId,
+                                        backgroundColor: backgroundColorCode,
+                                        showProductValue: Boolean(showProductValue),
+                                        showStoreLogo: Boolean(showStoreLogo),
+                                        redirectLink: redirectLink,
+                                    };
+                                
+                                    let data = JSON.stringify({
+                                        "showcaseStyleId": postData.showcaseStyleId,
+                                        "templateId": postData.templateId,
+                                        "backgroundColorCode": postData.backgroundColor,
+                                        "showProductValue": postData.showProductValue,
+                                        "showStoreLogo": postData.showStoreLogo,
+                                        "redirectLink": postData.redirectLink
+                                    });
+                                
+                                    let config = {
+                                        method: 'put',
+                                        maxBodyLength: Infinity,
+                                        url: 'https://showcase-api.azurewebsites.net/api/v1/ShowcaseStyle',
+                                        headers: {
+                                            'Content-Type': 'application/json',
+                                            'Authorization': ''
+                                        },
+                                        data: data
+                                    };
+                                
+                                    axios.request(config)
+                                        .then((response) => {
+                                            console.log("ESTILO ALTERADO COM SUCESSO!");
+                                            location.reload();
+                                        })
+                                        .catch((error) => {
+                                            console.log(error);
+                                        });
+                                })
+                                .catch(function (error) {
+                                    console.log(error);
+                                });
+                    });
+
+                }
+                else {
+                    console.log("Erro para pegar Showcase Style:", response.data);
+                }
+
+
+            })
+            .catch(function (error) {
+                console.log(error);
+            });
+
     } else {
         console.log("UserId não encontrado");
     }
@@ -263,7 +395,7 @@ document.addEventListener("DOMContentLoaded", function () {
                                     showStoreLogo = true;
                                 }
                                 else {
-                                    showStoreLogo = true;
+                                    showStoreLogo = false;
                                 }
                                 backgroundColor = response.data.data.backgroundColorCode;
                                 if (backgroundColor === null) {
@@ -373,7 +505,8 @@ function vincularProduto(produto) {
 
                 axios.request(config)
                     .then((response) => {
-                        console.log("Produto adicionado!"); // Correção no nome do método
+                        console.log("Produto adicionado!");
+                        window.location.reload();
                     })
                     .catch((error) => {
                         console.log(error);
@@ -404,7 +537,7 @@ function createProductCard(produto, backgroundColor, showProductValue, showStore
                 <div class="col-md-8 pt-0 ps-3 mt-3">
                     <div class="card-body py-0">
                         <h2 class="card-title" style="color: white;">${produto.name}</h2>
-                        <h5 class="card-text mb-3" style="color: ${backgroundColor};">Valor: R$:${produto.value} av<br>ou R$:${produto.value} em até 12x</h5>
+                        <h5 class="card-text mb-3" style="color: ${backgroundColor};">Valor: R$${produto.value} av<br>ou R$${produto.value} em até 12x</h5>
                         <h5 class="card-text" style="color: white;">Descrição: ${produto.sku}</h5>
                     </div>
                     <div class="card-footer d-flex mt-3 justify-content-start" style="color: white; border: none; background: none;">
@@ -443,7 +576,7 @@ function createProductCard(produto, backgroundColor, showProductValue, showStore
                 <div class="col-md-8 pt-0 ps-3 mt-3">
                     <div class="card-body py-0">
                         <h2 class="card-title" style="color: white;">${produto.name}</h2>
-                        <h5 class="card-text mb-3" style="color: ${backgroundColor};">Valor: R$:${produto.value} av<br>ou R$:${produto.value} em até 12x</h5>
+                        <h5 class="card-text mb-3" style="color: ${backgroundColor};">Valor: R$${produto.value} av<br>ou R$${produto.value} em até 12x</h5>
                         <h5 class="card-text" style="color: white;">Descrição: ${produto.sku}</h5>
                     </div>
                     <div class="card-footer d-flex mt-3 justify-content-start" style="color: white; border: none; background: none;">
@@ -538,76 +671,6 @@ function excluirProduto(produtoId) {
             }
         })
 }
-
-// Selecione o elemento input pelo ID
-const colorPicker = document.getElementById("colorPicker");
-
-const sendStyleButton = document.querySelector(".send-styles"); // Selecione o botão
-
-sendStyleButton.addEventListener("click", function () {
-    const checkbox1 = document.getElementById("checkbox1");
-    const checkbox2 = document.getElementById("checkbox2");
-
-    const showcaseId = localStorage.getItem("showcaseId");
-    const apiUrl = `https://showcase-api.azurewebsites.net/api/v1/ShowcaseStyle/GetStyleByShowcaseId/${showcaseId}`;
-        axios.request(apiUrl)
-            .then(async (response) => {
-                const id = response.data.data.id;
-                const templateId = response.data.data.templateId;
-                const checkbox1 = document.getElementById("checkbox1");
-                const checkbox2 = document.getElementById("checkbox2");
-                const backgroundColorCode = colorPicker.value;
-                const showProductValue = checkbox1.checked;
-                const showStoreLogo = checkbox2.checked;
-                let redirectLink = response.data.data.redirectLink;
-
-                if(response.data.data.redirectLink === null){
-                    redirectLink = "";
-                }
-
-                const postData = {
-                    showcaseStyleId: id,
-                    templateId: templateId,
-                    backgroundColor: backgroundColorCode,
-                    showProductValue: Boolean(showProductValue),
-                    showStoreLogo: Boolean(showStoreLogo),
-                    redirectLink: redirectLink,
-                };
-            
-                let data = JSON.stringify({
-                    "showcaseStyleId": postData.showcaseStyleId,
-                    "templateId": postData.templateId,
-                    "backgroundColorCode": postData.backgroundColor,
-                    "showProductValue": postData.showProductValue,
-                    "showStoreLogo": postData.showStoreLogo,
-                    "redirectLink": postData.redirectLink
-                });
-            
-                let config = {
-                    method: 'put',
-                    maxBodyLength: Infinity,
-                    url: 'https://showcase-api.azurewebsites.net/api/v1/ShowcaseStyle',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'Authorization': ''
-                    },
-                    data: data
-                };
-            
-                axios.request(config)
-                    .then((response) => {
-                        console.log("ESTILO ALTERADO COM SUCESSO!");
-                        location.reload();
-                    })
-                    .catch((error) => {
-                        console.log(error);
-                    });
-            })
-            .catch(function (error) {
-                console.log(error);
-            });
-});
-
 
 //Altera Link
 const alterarLink = document.querySelector(".send-link");
