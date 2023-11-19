@@ -497,6 +497,7 @@ function vincularProduto(produto) {
                 axios.request(config)
                     .then((response) => {
                         console.log("Produto adicionado!"); // Correção no nome do método
+                        window.location.reload();
                     })
                     .catch((error) => {
                         console.log(error);

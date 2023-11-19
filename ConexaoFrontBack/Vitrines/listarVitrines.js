@@ -28,11 +28,11 @@ document.addEventListener("DOMContentLoaded", function () {
 
                                 const imgElement = document.createElement("img");
                                 imgElement.className = "card-img-top";
-                                imgElement.alt = "";
+                                imgElement.alt = "Logo Showcase";
                                 imgElement.style.height = "225px";
                                 imgElement.style.width = "100%";
                                 imgElement.style.display = "block";
-                                imgElement.src = vitrine.imagem;
+                                imgElement.src = "https://i.ibb.co/kh7hbb5/showcase-high-resolution-logo-transparent.png";
 
                                 const cardBodyDiv = document.createElement("div");
                                 cardBodyDiv.className = "card-body p-1";
