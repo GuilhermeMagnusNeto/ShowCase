@@ -251,7 +251,6 @@ document.addEventListener("DOMContentLoaded", function () {
     
                         const modeloBotoes = document.getElementById("modeloBotoes");
     
-                        console.log(modeloBotoes);
                         if(showProductValue === true){
                             const link = document.createElement("div");
                             link.className = "form-check form-switch me-4";
@@ -287,9 +286,7 @@ document.addEventListener("DOMContentLoaded", function () {
                         link.innerHTML = `Alterar estilo`;
                         modeloBotoes.appendChild(link);
     
-                        link.addEventListener("click", function (event) {
-                            console.log("teste");
-    
+                        link.addEventListener("click", function (event) {    
                             const showcaseId = localStorage.getItem("showcaseId");
                             const apiUrl = `https://showcase-api.azurewebsites.net/api/v1/ShowcaseStyle/GetStyleByShowcaseId/${showcaseId}`;
                                 axios.request(apiUrl)
@@ -354,7 +351,6 @@ document.addEventListener("DOMContentLoaded", function () {
                     else {
                         console.log("Erro para pegar Showcase Style:", response.data);
                     }
-    
     
                 })
                 .catch(function (error) {
@@ -655,76 +651,6 @@ function excluirProduto(produtoId) {
             }
         })
 }
-
-// Selecione o elemento input pelo ID
-const colorPicker = document.getElementById("colorPicker");
-
-const sendStyleButton = document.querySelector(".send-styles"); // Selecione o botão
-
-sendStyleButton.addEventListener("click", function () {
-    const checkbox1 = document.getElementById("checkbox1");
-    const checkbox2 = document.getElementById("checkbox2");
-
-    const showcaseId = localStorage.getItem("showcaseId");
-    const apiUrl = `https://showcase-api.azurewebsites.net/api/v1/ShowcaseStyle/GetStyleByShowcaseId/${showcaseId}`;
-        axios.request(apiUrl)
-            .then(async (response) => {
-                const id = response.data.data.id;
-                const templateId = response.data.data.templateId;
-                const checkbox1 = document.getElementById("checkbox1");
-                const checkbox2 = document.getElementById("checkbox2");
-                const backgroundColorCode = colorPicker.value;
-                const showProductValue = checkbox1.checked;
-                const showStoreLogo = checkbox2.checked;
-                let redirectLink = response.data.data.redirectLink;
-
-                if(response.data.data.redirectLink === null){
-                    redirectLink = "";
-                }
-
-                const postData = {
-                    showcaseStyleId: id,
-                    templateId: templateId,
-                    backgroundColor: backgroundColorCode,
-                    showProductValue: Boolean(showProductValue),
-                    showStoreLogo: Boolean(showStoreLogo),
-                    redirectLink: redirectLink,
-                };
-            
-                let data = JSON.stringify({
-                    "showcaseStyleId": postData.showcaseStyleId,
-                    "templateId": postData.templateId,
-                    "backgroundColorCode": postData.backgroundColor,
-                    "showProductValue": postData.showProductValue,
-                    "showStoreLogo": postData.showStoreLogo,
-                    "redirectLink": postData.redirectLink
-                });
-            
-                let config = {
-                    method: 'put',
-                    maxBodyLength: Infinity,
-                    url: 'https://showcase-api.azurewebsites.net/api/v1/ShowcaseStyle',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'Authorization': ''
-                    },
-                    data: data
-                };
-            
-                axios.request(config)
-                    .then((response) => {
-                        console.log("ESTILO ALTERADO COM SUCESSO!");
-                        location.reload();
-                    })
-                    .catch((error) => {
-                        console.log(error);
-                    });
-            })
-            .catch(function (error) {
-                console.log(error);
-            });
-});
-
 
 //Altera Link
 const alterarLink = document.querySelector(".send-link");

@@ -248,7 +248,6 @@ document.addEventListener("DOMContentLoaded", function () {
 
                     const modeloBotoes = document.getElementById("modeloBotoes");
 
-                    console.log(modeloBotoes);
                     if(showProductValue === true){
                         const link = document.createElement("div");
                         link.className = "form-check form-switch me-4";
@@ -285,8 +284,6 @@ document.addEventListener("DOMContentLoaded", function () {
                     modeloBotoes.appendChild(link);
 
                     link.addEventListener("click", function (event) {
-                        console.log("teste");
-
                         const showcaseId = localStorage.getItem("showcaseId");
                         const apiUrl = `https://showcase-api.azurewebsites.net/api/v1/ShowcaseStyle/GetStyleByShowcaseId/${showcaseId}`;
                             axios.request(apiUrl)
