@@ -525,7 +525,7 @@ function createProductCard(produto, backgroundColor, showProductValue, showStore
                 <div class="d-flex flex-column">
                     <h1>${produto.name}</h1>
                     <h5>Valor: R$${produto.value} av<br>ou R$${produto.value} em até 12x</h5>
-                    <h6>Descrição: ${produto.sku}</h6>
+                    <h6>Descrição: ${produto.description}</h6>
                 </div>
                 <div class="mt-3 d-flex justify-content-center" style="color: white; border: none; background: none;">
                     <a href="${redirectLink}" class="btn btn-primary">Quero Este!</a>
@@ -544,7 +544,7 @@ function createProductCard(produto, backgroundColor, showProductValue, showStore
                 </div>
                 <div class="d-flex flex-column">
                     <h1>${produto.name}</h1>
-                    <h6>Descrição: ${produto.sku}</h6>
+                    <h6>Descrição: ${produto.description}</h6>
                 </div>
                 <div class="mt-3 d-flex justify-content-center" style="color: white; border: none; background: none;">
                     <a href="${redirectLink}" class="btn btn-primary">Quero Este!</a>
@@ -561,7 +561,7 @@ function createProductCard(produto, backgroundColor, showProductValue, showStore
                 <div class="d-flex flex-column">
                     <h1>${produto.name}</h1>
                     <h5>Valor: R$${produto.value} av<br>ou R$${produto.value} em até 12x</h5>
-                    <h6>Descrição: ${produto.sku}</h6>
+                    <h6>Descrição: ${produto.description}</h6>
                 </div>
                 <div class="mt-3 d-flex justify-content-center" style="color: white; border: none; background: none;">
                     <a href="${redirectLink}" class="btn btn-primary">Quero Este!</a>
@@ -577,7 +577,7 @@ function createProductCard(produto, backgroundColor, showProductValue, showStore
             <div class="text-decoration-none border mx-1 w-100 p-3" style="color: white; background: url('../Imagens/backgroundTexture.png') repeat, linear-gradient(to top, ${backgroundColor}, black);background-blend-mode: overlay; border-radius: 40px;">
                 <div class="d-flex flex-column">
                     <h1>${produto.name}</h1>
-                    <h6>Descrição: ${produto.sku}</h6>
+                    <h6>Descrição: ${produto.description}</h6>
                 </div>
                 <div class="mt-3 d-flex justify-content-center" style="color: white; border: none; background: none;">
                     <a href="${redirectLink}" class="btn btn-primary">Quero Este!</a>

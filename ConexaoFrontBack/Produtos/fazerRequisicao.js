@@ -535,7 +535,7 @@ function createProductCard(produto, backgroundColor, showProductValue, showStore
                     <div class="card-body py-0">
                         <h2 class="card-title" style="color: white;">${produto.name}</h2>
                         <h5 class="card-text mb-3" style="color: ${backgroundColor};">Valor: R$${produto.value} av<br>ou R$${produto.value} em até 12x</h5>
-                        <h5 class="card-text" style="color: white;">Descrição: ${produto.sku}</h5>
+                        <h5 class="card-text" style="color: white;">Descrição: ${produto.description}</h5>
                     </div>
                     <div class="card-footer d-flex mt-3 justify-content-start" style="color: white; border: none; background: none;">
                         <a href="${redirectLink}" class="btn btn-primary">Quero Este!</a>
@@ -555,7 +555,7 @@ function createProductCard(produto, backgroundColor, showProductValue, showStore
                 <div class="col-md-8 pt-0 ps-3 mt-3">
                     <div class="card-body py-0">
                         <h2 class="card-title" style="color: white;">${produto.name}</h2>
-                        <h5 class="card-text" style="color: white;">Descrição: ${produto.sku}</h5>
+                        <h5 class="card-text" style="color: white;">Descrição: ${produto.description}</h5>
                     </div>
                     <div class="card-footer d-flex mt-3 justify-content-start" style="color: white; border: none; background: none;">
                         <a href="${redirectLink}" class="btn btn-primary">Quero Este!</a>
@@ -574,7 +574,7 @@ function createProductCard(produto, backgroundColor, showProductValue, showStore
                     <div class="card-body py-0">
                         <h2 class="card-title" style="color: white;">${produto.name}</h2>
                         <h5 class="card-text mb-3" style="color: ${backgroundColor};">Valor: R$${produto.value} av<br>ou R$${produto.value} em até 12x</h5>
-                        <h5 class="card-text" style="color: white;">Descrição: ${produto.sku}</h5>
+                        <h5 class="card-text" style="color: white;">Descrição: ${produto.description}</h5>
                     </div>
                     <div class="card-footer d-flex mt-3 justify-content-start" style="color: white; border: none; background: none;">
                         <a href="${redirectLink}" class="btn btn-primary">Quero Este!</a>
@@ -592,7 +592,7 @@ function createProductCard(produto, backgroundColor, showProductValue, showStore
                 <div class="col-md-8 pt-0 ps-3 mt-3">
                     <div class="card-body py-0">
                         <h2 class="card-title" style="color: white;">${produto.name}</h2>
-                        <h5 class="card-text" style="color: white;">Descrição: ${produto.sku}</h5>
+                        <h5 class="card-text" style="color: white;">Descrição: ${produto.description}</h5>
                     </div>
                     <div class="card-footer d-flex mt-3 justify-content-start" style="color: white; border: none; background: none;">
                         <a href="${redirectLink}" class="btn btn-primary">Quero Este!</a>
